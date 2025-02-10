@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
+import { userStore } from './UserStore';
 
 export default function EmployeePage() {
   const navigate = useNavigate();
-  const profileData = {
-    firstname: "John",
-    lastname: "Doe",
-    email: "john.doe@example.com",
-    dob: "1990-01-01",
-    gender: "Male",
-    phoneNumber: "+1 (555) 123-4567",
-    address: "123 Main St, City, Country",
-    skills: "JavaScript, React, Node.js",
-    experience: "5+ years in web development",
-  };
+  const [profileData, setProfileData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    dob: "",
+    gender: "",
+    phoneNumber: "",
+    address: "",
+    skills: "",
+    experience: "",
+    hasExperience:"",
+  });
+
+
+  useEffect(() => {
+    const savedProfile = localStorage.getItem('userProfile');
+    if (savedProfile) {
+      setProfileData(JSON.parse(savedProfile));
+    }
+  }, []);
+
+//  useEffect(() => {
+//   setProfileData(
+//   userStore.loadUsers());
+//   }, []);
 
   const handleAdddetails = () => {
     navigate("/add-details");
@@ -68,10 +83,12 @@ export default function EmployeePage() {
             <p className="text-gray-600 text-sm">Skills</p>
             <p className="text-gray-900">{profileData.skills}</p>
           </div>
-          <div className="border-b pb-2">
-            <p className="text-gray-600 text-sm">Experience</p>
-            <p className="text-gray-900">{profileData.experience}</p>
-          </div>
+          {profileData.hasExperience === "yes" && (
+            <div className="border-b pb-2">
+              <p className="text-gray-600 text-sm">Experience</p>
+              <p className="text-gray-900">{profileData.experience}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

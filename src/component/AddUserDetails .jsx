@@ -35,10 +35,20 @@ const AddUserDetails = () => {
     }));
   };
 
- 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem('userProfile', JSON.stringify(formData));
+    navigate('/employe');
+  };
+
+  const handleCancel = () => {
+    setFormData("");
+    navigate('/employe');
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
+      <form onSubmit={handleSubmit} className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-6">Add User Details</h2>
 
         <div className="flex gap-4 mb-4">
@@ -73,7 +83,7 @@ const AddUserDetails = () => {
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
               label="Date"
-              value={formData.date}
+              value={formData.dob || null}
               onChange={handleInputChange}
               sx={{ width: "100%" }}
             />
@@ -146,7 +156,7 @@ const AddUserDetails = () => {
           {formData.hasExperience === "yes" && (
             <TextField
               fullWidth
-              label="Experience"
+              label="Experience Details"
               name="experience"
               multiline
               rows={2}
@@ -158,12 +168,14 @@ const AddUserDetails = () => {
         </div>
 
         <div className="flex justify-end gap-4">
-          <Button variant="outlined">Cancel</Button>
+          <Button variant="outlined" onClick={handleCancel}>
+            Cancel
+          </Button>
           <Button type="submit" variant="contained">
             Save
           </Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
