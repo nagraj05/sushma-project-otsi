@@ -1,8 +1,10 @@
 import React from "react";
 import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useNavigate } from "react-router-dom";
 
 export default function EmployeePage() {
+  const navigate = useNavigate();
   const profileData = {
     firstname: "John",
     lastname: "Doe",
@@ -15,12 +17,20 @@ export default function EmployeePage() {
     experience: "5+ years in web development",
   };
 
+  const handleAdddetails = () => {
+    navigate("/add-details");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="max-w-2xl w-full p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">User Profile</h2>
-          <Button variant="contained" startIcon={<AddCircleIcon />}>
+          <Button
+            variant="contained"
+            onClick={handleAdddetails}
+            startIcon={<AddCircleIcon />}
+          >
             Add Details
           </Button>
         </div>

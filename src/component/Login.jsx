@@ -12,15 +12,11 @@ export default function Login() {
   const [loginError, setLoginError] = useState("");
 
   const validateEmail = (value) => {
+    if (!value) return true; 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!value) {
-      setEmailError("Email is required");
-      return false;
-    } else if (!emailRegex.test(value)) {
-      setEmailError("Please enter a valid email address (must contain @ and .com)");
+    if (!emailRegex.test(value)) {
       return false;
     } else {
-      setEmailError("");
       return true;
     }
   };
@@ -29,19 +25,29 @@ export default function Login() {
     const value = e.target.value;
     setEmail(value);
     validateEmail(value);
+    setLoginError("");
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setLoginError(""); // Clear login error when password is changed
+  };
+
+  const handleInputFocus = () => {
+    setLoginError("");
   };
 
   const handleLogin = () => {
-    const origin = localStorage.getItem("Origin");
-
-    if (origin === "login") {
-      if (email === "admin@gmail.com" && password === "admin@12345") {
-        navigate("/AdminPage");
-      } else if (email === "employe@gmail.com" && password === "employe@12345") {
-        navigate("/employe");
-      } else {
-        setLoginError("Invalid User"); 
-      }
+    if (!email || !password) return setLoginError("Please enter both email and password");
+    if (!validateEmail(email)) return;
+  
+    const { employees, admins } = JSON.parse(localStorage.getItem("userCredentials")) || {};
+    
+    if (employees?.some(user => user.email === email && user.password === password)) {
+      navigate("/employe");
+    } else if (admins?.some(user => user.email === email && user.password === password)) {
+      navigate("/AdminPage");
+    } else {
+      setLoginError("Invalid email or password");
     }
   };
 
@@ -59,29 +65,33 @@ export default function Login() {
             fullWidth
             value={email}
             onChange={handleEmailChange}
+            onFocus={handleInputFocus}
             onBlur={() => validateEmail(email)}
             error={!!emailError}
             helperText={emailError}
+            required
           />
         </div>
         <div className="mb-4 relative">
-          <TextField
+        <TextField
             id="password"
             label="Password"
             variant="outlined"
             type={showPassword ? 'text' : 'password'}
             fullWidth
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
+            onFocus={handleInputFocus}
+            required
           />
           <div 
-            className="absolute right-3 top-1/2  cursor-pointer"
+            className="absolute right-3 top-1/2 cursor-pointer"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
           </div>
         </div>
-        <div className="mt-4 flex items-center justify-center flex-col  gap-3">
+        <div className="mt-4 flex items-center justify-center flex-col gap-3">
           <Button 
             variant="contained" 
             fullWidth 
@@ -89,12 +99,11 @@ export default function Login() {
           >
             Login
           </Button>
-         
           {loginError && (
-        <Typography color="error">
-          {loginError}
-        </Typography>
-      )}
+            <Typography color="error">
+              {loginError}
+            </Typography>
+          )}
         </div>
       </div>
     </div>

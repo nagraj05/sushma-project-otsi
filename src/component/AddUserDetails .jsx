@@ -8,6 +8,9 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const AddUserDetails = () => {
   const navigate = useNavigate();
@@ -20,22 +23,31 @@ const AddUserDetails = () => {
     phoneNumber: "",
     address: "",
     skills: "",
+    hasExperience: "",
     experience: "",
   });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+ 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className=" w-2xl p-6 bg-white rounded-lg shadow-lg">
-    <div className="mt-8 px-6">
-      <h2 className="text-2xl font-semibold mb-6">Add User Details</h2>
-   
-        <div className="flex flex-wrap gap-4">
-            <div className="w-full gap-4 flex justify-between">
+      <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="text-2xl font-semibold mb-6">Add User Details</h2>
+
+        <div className="flex gap-4 mb-4">
           <TextField
             fullWidth
             label="First Name"
             name="firstname"
             value={formData.firstname}
+            onChange={handleInputChange}
             required
           />
           <TextField
@@ -43,32 +55,39 @@ const AddUserDetails = () => {
             label="Last Name"
             name="lastname"
             value={formData.lastname}
+            onChange={handleInputChange}
             required
           />
-          </div>
+        </div>
+
+        <div className="flex gap-4 mb-4">
           <TextField
             fullWidth
             label="Email"
             name="email"
             type="email"
             value={formData.email}
+            onChange={handleInputChange}
             required
           />
-          <TextField
-            fullWidth
-            label="Date of Birth"
-            name="dob"
-            type="date"
-            value={formData.dob}
-            InputLabelProps={{ shrink: true }}
-            required
-          />
-          <FormControl fullWidth>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              label="Date"
+              value={formData.date}
+              onChange={handleInputChange}
+              sx={{ width: "100%" }}
+            />
+          </LocalizationProvider>
+        </div>
+
+        <div className="flex gap-4 mb-4">
+          <FormControl fullWidth required>
             <InputLabel>Gender</InputLabel>
             <Select
-              name="gender"
               value={formData.gender}
-              required
+              onChange={handleInputChange}
+              label="Gender"
+              name="gender"
             >
               <MenuItem value="Male">Male</MenuItem>
               <MenuItem value="Female">Female</MenuItem>
@@ -80,10 +99,12 @@ const AddUserDetails = () => {
             label="Phone Number"
             name="phoneNumber"
             value={formData.phoneNumber}
+            onChange={handleInputChange}
             required
           />
         </div>
-        <div className="mt-4">
+
+        <div className="mb-4">
           <TextField
             fullWidth
             label="Address"
@@ -91,10 +112,11 @@ const AddUserDetails = () => {
             multiline
             rows={2}
             value={formData.address}
+            onChange={handleInputChange}
             required
           />
         </div>
-        <div className="mt-4">
+        <div className="mb-4">
           <TextField
             fullWidth
             label="Skills"
@@ -102,30 +124,46 @@ const AddUserDetails = () => {
             multiline
             rows={2}
             value={formData.skills}
+            onChange={handleInputChange}
             required
           />
         </div>
-        <div className="mt-4">
-          <TextField
-            fullWidth
-            label="Experience"
-            name="experience"
-            multiline
-            rows={2}
-            value={formData.experience}
-            required
-          />
+
+        <div className="mb-4">
+          <FormControl fullWidth required>
+            <InputLabel>Experience</InputLabel>
+            <Select
+              value={formData.hasExperience}
+              onChange={handleInputChange}
+              label="Experience"
+             name="hasExperience"
+             className="mb-4"
+            >
+              <MenuItem value="yes">Yes</MenuItem>
+              <MenuItem value="no">No</MenuItem>
+            </Select>
+          </FormControl>
+          {formData.hasExperience === "yes" && (
+            <TextField
+              fullWidth
+              label="Experience"
+              name="experience"
+              multiline
+              rows={2}
+              value={formData.experience}
+              onChange={handleInputChange}
+              required
+            />
+          )}
         </div>
-        <div className="flex justify-end space-x-4 mt-6">
-          <Button variant="outlined" onClick={() => navigate("/employe")}>
-            Cancel
-          </Button>
+
+        <div className="flex justify-end gap-4">
+          <Button variant="outlined">Cancel</Button>
           <Button type="submit" variant="contained">
             Save
           </Button>
         </div>
-        </div>
-        </div>
+      </div>
     </div>
   );
 };
