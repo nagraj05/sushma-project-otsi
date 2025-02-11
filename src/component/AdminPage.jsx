@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { userStore } from "./UserStore";
+import { userStore } from "../store/UserStore";
 
 const AdminPage = observer(() => {
   useEffect(() => {

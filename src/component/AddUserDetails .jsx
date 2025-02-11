@@ -15,6 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 import { addUserStore } from "../store/AddUserStore";
+import { userStore } from "../store/UserStore"; // Import userStore instead of employeeStore
 import employeeStore from "../store/EmployeeStore ";
 
 const AddUserDetails = observer(() => {
@@ -35,7 +36,9 @@ const AddUserDetails = observer(() => {
       // Validate form data
       addUserStore.validateForm();
       
-      // Save to employee store and localStorage
+       // Save to employee store and localStorage
+      // Save to userStore and localStorage
+      userStore.addUser(addUserStore.formData);
       employeeStore.updateProfile(addUserStore.formData);
       
       // Reset the form
