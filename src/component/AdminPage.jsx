@@ -45,8 +45,8 @@ const AdminPage = observer(() => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {userStore.users.map((user, index) => (
-                  <TableRow key={user.email || index}>
+                {userStore.users.map((user) => (
+                  <TableRow key={user.id || user.email}>
                     <TableCell>
                       {`${user.firstname} ${user.lastname}`}
                     </TableCell>
