@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -7,43 +8,55 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Alert,
 } from "@mui/material";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { userStore } from "./UserStore";
+import moment from "moment";
+import { addUserStore } from "../store/AddUserStore";
+import employeeStore from "../store/EmployeeStore ";
 
-const AddUserDetails = () => {
+const AddUserDetails = observer(() => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    dob: "",
-    gender: "",
-    phoneNumber: "",
-    address: "",
-    skills: "",
-    hasExperience: "",
-    experience: "",
-  });
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    addUserStore.setField(name, value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    userStore.addUser(formData); 
-    navigate('/employe');
+  const handleDateChange = (date) => {
+    addUserStore.setField("dob", date ? moment(date).format("YYYY-MM-DD") : "");
   };
+
+  const handleSubmit = () => {
+    try {
+      // Validate form data
+      addUserStore.validateForm();
+      
+      // Save to employee store and localStorage
+      employeeStore.updateProfile(addUserStore.formData);
+      
+      // Reset the form
+      addUserStore.resetForm();
+      
+      // Navigate to employee page
+      navigate('/employe');
+    } catch (err) {
+      setError(err.message);
+      
+      // Clear error after 3 seconds
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  };
+
+ 
 
   const handleCancel = () => {
-    setFormData("");
+    addUserStore.resetForm();
     navigate('/employe');
   };
 
@@ -57,7 +70,7 @@ const AddUserDetails = () => {
             fullWidth
             label="First Name"
             name="firstname"
-            value={formData.firstname}
+            value={addUserStore.formData.firstname}
             onChange={handleInputChange}
             required
           />
@@ -65,7 +78,7 @@ const AddUserDetails = () => {
             fullWidth
             label="Last Name"
             name="lastname"
-            value={formData.lastname}
+            value={addUserStore.formData.lastname}
             onChange={handleInputChange}
             required
           />
@@ -77,15 +90,15 @@ const AddUserDetails = () => {
             label="Email"
             name="email"
             type="email"
-            value={formData.email}
+            value={addUserStore.formData.email}
             onChange={handleInputChange}
             required
           />
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DatePicker
-              label="Date"
-              value={formData.dob || null}
-              onChange={handleInputChange}
+              label="Date of Birth"
+              value={addUserStore.formData.dob ? moment(addUserStore.formData.dob) : null}
+              onChange={handleDateChange}
               sx={{ width: "100%" }}
             />
           </LocalizationProvider>
@@ -95,7 +108,7 @@ const AddUserDetails = () => {
           <FormControl fullWidth required>
             <InputLabel>Gender</InputLabel>
             <Select
-              value={formData.gender}
+              value={addUserStore.formData.gender}
               onChange={handleInputChange}
               label="Gender"
               name="gender"
@@ -109,7 +122,7 @@ const AddUserDetails = () => {
             fullWidth
             label="Phone Number"
             name="phoneNumber"
-            value={formData.phoneNumber}
+            value={addUserStore.formData.phoneNumber}
             onChange={handleInputChange}
             required
           />
@@ -122,11 +135,12 @@ const AddUserDetails = () => {
             name="address"
             multiline
             rows={2}
-            value={formData.address}
+            value={addUserStore.formData.address}
             onChange={handleInputChange}
             required
           />
         </div>
+
         <div className="mb-4">
           <TextField
             fullWidth
@@ -134,7 +148,7 @@ const AddUserDetails = () => {
             name="skills"
             multiline
             rows={2}
-            value={formData.skills}
+            value={addUserStore.formData.skills}
             onChange={handleInputChange}
             required
           />
@@ -144,7 +158,7 @@ const AddUserDetails = () => {
           <FormControl fullWidth required>
             <InputLabel>Experience</InputLabel>
             <Select
-              value={formData.hasExperience}
+              value={addUserStore.formData.hasExperience}
               onChange={handleInputChange}
               label="Experience"
              name="hasExperience"
@@ -154,20 +168,25 @@ const AddUserDetails = () => {
               <MenuItem value="no">No</MenuItem>
             </Select>
           </FormControl>
-          {formData.hasExperience === "yes" && (
+          {addUserStore.formData.hasExperience === "yes" && (
             <TextField
               fullWidth
               label="Experience Details"
               name="experience"
               multiline
               rows={2}
-              value={formData.experience}
+              value={addUserStore.formData.experience}
               onChange={handleInputChange}
               required
+              className="mt-4"
             />
           )}
         </div>
-
+        {error && (
+          <Alert severity="error" className="mb-4">
+            {error}
+          </Alert>
+        )}
         <div className="flex justify-end gap-4">
           <Button variant="outlined" onClick={handleCancel}>
             Cancel
@@ -176,9 +195,9 @@ const AddUserDetails = () => {
             Save
           </Button>
         </div>
-        </div>
+      </div>
     </div>
   );
-};
+});
 
 export default AddUserDetails;

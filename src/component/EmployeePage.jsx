@@ -1,36 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
-import { userStore } from './UserStore';
-
-export default function EmployeePage() {
+import { observer } from "mobx-react-lite";
+import employeeStore from "../store/EmployeeStore ";
+const EmployeePage = observer(() => {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    dob: "",
-    gender: "",
-    phoneNumber: "",
-    address: "",
-    skills: "",
-    experience: "",
-    hasExperience:"",
-  });
-
-
-  useEffect(() => {
-    const savedProfile = localStorage.getItem('userProfile');
-    if (savedProfile) {
-      setProfileData(JSON.parse(savedProfile));
-    }
-  }, []);
-
-//  useEffect(() => {
-//   setProfileData(
-//   userStore.loadUsers());
-//   }, []);
 
   const handleAdddetails = () => {
     navigate("/add-details");
@@ -53,44 +28,46 @@ export default function EmployeePage() {
         <div className="space-y-4">
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Firstname</p>
-            <p className="text-gray-900">{profileData.firstname}</p>
+            <p className="text-gray-900">{employeeStore.profileData.firstname}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Lastname</p>
-            <p className="text-gray-900">{profileData.lastname}</p>
+            <p className="text-gray-900">{employeeStore.profileData.lastname}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Email</p>
-            <p className="text-gray-900">{profileData.email}</p>
+            <p className="text-gray-900">{employeeStore.profileData.email}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">DOB</p>
-            <p className="text-gray-900">{profileData.dob}</p>
+            <p className="text-gray-900">{employeeStore.profileData.dob}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Gender</p>
-            <p className="text-gray-900">{profileData.gender}</p>
+            <p className="text-gray-900">{employeeStore.profileData.gender}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Phone Number</p>
-            <p className="text-gray-900">{profileData.phoneNumber}</p>
+            <p className="text-gray-900">{employeeStore.profileData.phoneNumber}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Address</p>
-            <p className="text-gray-900">{profileData.address}</p>
+            <p className="text-gray-900">{employeeStore.profileData.address}</p>
           </div>
           <div className="border-b pb-2">
             <p className="text-gray-600 text-sm">Skills</p>
-            <p className="text-gray-900">{profileData.skills}</p>
+            <p className="text-gray-900">{employeeStore.profileData.skills}</p>
           </div>
-          {profileData.hasExperience === "yes" && (
+          {employeeStore.hasExperienceField && (
             <div className="border-b pb-2">
               <p className="text-gray-600 text-sm">Experience</p>
-              <p className="text-gray-900">{profileData.experience}</p>
+              <p className="text-gray-900">{employeeStore.profileData.experience}</p>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+});
+
+export default EmployeePage;
