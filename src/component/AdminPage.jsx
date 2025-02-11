@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
+import React, { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Paper,
-  IconButton
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { userStore } from './UserStore';
+  IconButton,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { userStore } from "./UserStore";
 
 const AdminPage = observer(() => {
   useEffect(() => {
@@ -19,7 +19,7 @@ const AdminPage = observer(() => {
   }, []);
 
   const handleDelete = (email) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+    if (window.confirm("Are you sure you want to delete this user?")) {
       userStore.deleteUser(email);
     }
   };
@@ -46,10 +46,7 @@ const AdminPage = observer(() => {
               </TableHead>
               <TableBody>
                 {userStore.users.map((user, index) => (
-                  <TableRow 
-                    key={user.email || index}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
+                  <TableRow key={user.email || index}>
                     <TableCell>
                       {`${user.firstname} ${user.lastname}`}
                     </TableCell>
@@ -57,17 +54,15 @@ const AdminPage = observer(() => {
                     <TableCell>{user.phoneNumber}</TableCell>
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>{user.dob}</TableCell>
+                    <TableCell>{user.skills}</TableCell>
                     <TableCell>
-                      <div className="max-w-xs overflow-hidden text-ellipsis">
-                        {user.skills}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {user.hasExperience === 'yes' ? user.experience : 'No experience'}
+                      {user.hasExperience === "yes"
+                        ? user.experience
+                        : "No experience"}
                     </TableCell>
                     <TableCell>
                       <IconButton
-                        color="error"
+                        sx={{ color: "black" }}
                         onClick={() => handleDelete(user.email)}
                         size="small"
                         className="hover:bg-red-50"
@@ -79,7 +74,10 @@ const AdminPage = observer(() => {
                 ))}
                 {userStore.users.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                    <TableCell
+                      colSpan={8}
+                      className="text-center py-8 text-gray-500"
+                    >
                       No users found
                     </TableCell>
                   </TableRow>
