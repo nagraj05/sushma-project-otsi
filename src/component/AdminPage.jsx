@@ -37,6 +37,7 @@ const AdminPage = observer(() => {
                   <TableCell className="font-bold bg-gray-50">Name</TableCell>
                   <TableCell className="font-bold bg-gray-50">Email</TableCell>
                   <TableCell className="font-bold bg-gray-50">Phone</TableCell>
+                  <TableCell className="font-bold bg-gray-50">Address</TableCell>
                   <TableCell className="font-bold bg-gray-50">Gender</TableCell>
                   <TableCell className="font-bold bg-gray-50">DOB</TableCell>
                   <TableCell className="font-bold bg-gray-50">Skills</TableCell>
@@ -52,6 +53,7 @@ const AdminPage = observer(() => {
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.phoneNumber}</TableCell>
+                    <TableCell>{user.address}</TableCell>
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>{user.dob}</TableCell>
                     <TableCell>{user.skills}</TableCell>
