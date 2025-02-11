@@ -11,6 +11,7 @@ import {
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { userStore } from "./UserStore";
 
 const AddUserDetails = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const AddUserDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem('userProfile', JSON.stringify(formData));
+    userStore.addUser(formData); 
     navigate('/employe');
   };
 
@@ -48,7 +49,7 @@ const AddUserDetails = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-      <form onSubmit={handleSubmit} className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-6">Add User Details</h2>
 
         <div className="flex gap-4 mb-4">
@@ -171,11 +172,11 @@ const AddUserDetails = () => {
           <Button variant="outlined" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" onClick={handleSubmit}>
             Save
           </Button>
         </div>
-      </form>
+        </div>
     </div>
   );
 };

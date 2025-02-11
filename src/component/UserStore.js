@@ -7,19 +7,20 @@ class UserStore {
     makeAutoObservable(this);
   }
 
+  addUser(user) {
+    this.users.push(user);
+    localStorage.setItem('userProfiles', JSON.stringify(this.users));
+  }
+
   deleteUser(email) {
     this.users = this.users.filter(user => user.email !== email);
-    if (this.users.length > 0) {
-      localStorage.setItem('userProfile', JSON.stringify(this.users[0]));
-    } else {
-      localStorage.removeItem('userProfile');
-    }
+    localStorage.setItem('userProfiles', JSON.stringify(this.users));
   }
 
   loadUsers() {
-    const savedProfile = localStorage.getItem('userProfile');
-    if (savedProfile) {
-      this.users = [JSON.parse(savedProfile)];
+    const savedProfiles = localStorage.getItem('userProfiles');
+    if (savedProfiles) {
+      this.users = JSON.parse(savedProfiles);
     }
   }
 }
