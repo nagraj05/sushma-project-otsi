@@ -46,8 +46,6 @@ const AddUserDetails = observer(() => {
       userStore.addUser(newUser);
       employeeStore.updateProfile(newUser);
       
-      // Reset the form
-      addUserStore.resetForm();
       
       // Navigate to employee page
       navigate('/employe');

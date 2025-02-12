@@ -29,7 +29,6 @@ const EmployeePage = observer(() => {
   };
 
   const handleLogout = () => {
-    employeeStore.clearProfileData();
     employeeStore.setDialogOpen(false);
     navigate("/");
   };
