@@ -21,6 +21,7 @@ import { userStore } from "../store/UserStore";
 import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 
 const AdminPage = observer(() => {
@@ -92,7 +93,7 @@ const AdminPage = observer(() => {
                     <TableCell>{user.phoneNumber}</TableCell>
                     <TableCell>{user.address}</TableCell>
                     <TableCell>{user.gender}</TableCell>
-                    <TableCell>{user.dob}</TableCell>
+                    <TableCell>{moment(user.dob).format('DD MMM YYYY')}</TableCell>
                     <TableCell>{user.skills}</TableCell>
                     <TableCell>
                       {user.hasExperience === "yes"

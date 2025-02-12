@@ -28,7 +28,7 @@ const AddUserDetails = observer(() => {
   };
 
   const handleDateChange = (date) => {
-    addUserStore.setField("dob", date ? moment(date).format("YYYY-MM-DD") : "");
+    addUserStore.setField("dob", date ? moment(date).format('DD MMM YYYY') : "");
   };
 
   const handleSubmit = () => {

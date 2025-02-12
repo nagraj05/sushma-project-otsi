@@ -11,18 +11,18 @@ function App() {
   useEffect(() => {
     const userCredentials = {
       employees: [
-        { email: "emp1@example.com", password: "Emp@1234" },
-        { email: "emp2@example.com", password: "Emp@2345" },
-        { email: "emp3@example.com", password: "Emp@3456" },
-        { email: "emp4@example.com", password: "Emp@4567" },
-        { email: "emp5@example.com", password: "Emp@5678" },
+        { email: "emp1@gmail.com", password: "Emp@1234" },
+        { email: "emp2@gmail.com", password: "Emp@2345" },
+        { email: "emp3@gmail.com", password: "Emp@3456" },
+        { email: "emp4@gmail.com", password: "Emp@4567" },
+        { email: "emp5@gmail.com", password: "Emp@5678" },
       ],
       admins: [
-        { email: "admin1@example.com", password: "Admin@1234" },
-        { email: "admin2@example.com", password: "Admin@2345" },
-        { email: "admin3@example.com", password: "Admin@3456" },
-        { email: "admin4@example.com", password: "Admin@4567" },
-        { email: "admin5@example.com", password: "Admin@5678" },
+        { email: "admin1@gmail.com", password: "Admin@1234" },
+        { email: "admin2@gmail.com", password: "Admin@2345" },
+        { email: "admin3@gmail.com", password: "Admin@3456" },
+        { email: "admin4@gmail.com", password: "Admin@4567" },
+        { email: "admin5@gmail.com", password: "Admin@5678" },
       ],
     };
     localStorage.setItem("userCredentials", JSON.stringify(userCredentials));
