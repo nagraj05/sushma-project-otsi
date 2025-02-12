@@ -3,6 +3,8 @@ import { makeAutoObservable } from "mobx";
 class UserStore {
   users = [];
 
+  isDialogOpen = false;  // New state for dialog
+
   constructor() {
     makeAutoObservable(this);
     // Load existing users when store is initialized
@@ -23,6 +25,10 @@ class UserStore {
     
     // Save to localStorage
     this.saveToLocalStorage();
+  }
+
+  setDialogOpen(isOpen) {  // New method to control dialog
+    this.isDialogOpen = isOpen;
   }
 
   deleteUser(email) {

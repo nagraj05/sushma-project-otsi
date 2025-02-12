@@ -9,11 +9,22 @@ import {
   TableRow,
   Paper,
   IconButton,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { userStore } from "../store/UserStore";
+import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
+
 
 const AdminPage = observer(() => {
+  const navigate = useNavigate();
   useEffect(() => {
     userStore.loadUsers();
   }, []);
@@ -24,11 +35,31 @@ const AdminPage = observer(() => {
     }
   };
 
+  const handleProfile = () => {
+    userStore.setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    userStore.setDialogOpen(false);
+  };
+
+  const handleLogout = () => {
+    userStore.setDialogOpen(false);
+    navigate("/");
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">User Management</h1>
-        
+        <div className="flex items-center gap-2 mb-6">
+          <Tooltip title="Profile" arrow>
+            <PermIdentityTwoToneIcon
+            onClick={handleProfile}
+            className="cursor-pointer" />
+          </Tooltip>
+          <h1 className="text-2xl font-bold ">User Management</h1>
+        </div>
+
         <Paper className="w-full mb-6">
           <TableContainer className="max-h-[600px]">
             <Table stickyHeader>
@@ -37,12 +68,18 @@ const AdminPage = observer(() => {
                   <TableCell className="font-bold bg-gray-50">Name</TableCell>
                   <TableCell className="font-bold bg-gray-50">Email</TableCell>
                   <TableCell className="font-bold bg-gray-50">Phone</TableCell>
-                  <TableCell className="font-bold bg-gray-50">Address</TableCell>
+                  <TableCell className="font-bold bg-gray-50">
+                    Address
+                  </TableCell>
                   <TableCell className="font-bold bg-gray-50">Gender</TableCell>
                   <TableCell className="font-bold bg-gray-50">DOB</TableCell>
                   <TableCell className="font-bold bg-gray-50">Skills</TableCell>
-                  <TableCell className="font-bold bg-gray-50">Experience</TableCell>
-                  <TableCell className="font-bold bg-gray-50">Actions</TableCell>
+                  <TableCell className="font-bold bg-gray-50">
+                    Experience
+                  </TableCell>
+                  <TableCell className="font-bold bg-gray-50">
+                    Actions
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -88,8 +125,27 @@ const AdminPage = observer(() => {
             </Table>
           </TableContainer>
         </Paper>
+
+        <Dialog open={userStore.isDialogOpen} onClose={handleClose}>
+          <DialogTitle>Logout</DialogTitle>
+          <DialogContent>
+            <div className="flex items-center gap-2 py-4">
+              <LogoutIcon className="text-gray-600" />
+              <p>Are you sure you want to logout?</p>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleLogout} color="error" variant="contained">
+              Logout
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
+    
   );
 });
 

@@ -14,6 +14,8 @@ class EmployeeStore {
     hasExperience: "",
   };
 
+  isDialogOpen = false;  // New state for dialog
+
   constructor() {
     makeAutoObservable(this);
     this.loadProfile();
@@ -31,11 +33,30 @@ class EmployeeStore {
     localStorage.setItem('userProfile', JSON.stringify(this.profileData));
   }
 
+  setDialogOpen(isOpen) {  // New method to control dialog
+    this.isDialogOpen = isOpen;
+  }
+
+
+clearProfileData() {
+    const emptyProfile = {
+      firstname: "",
+      lastname: "",
+      email: "",
+      dob: "",
+      gender: "",
+      phoneNumber: "",
+      address: "",
+      skills: "",
+      experience: "",
+      hasExperience: ""
+    };
+    this.updateProfile(emptyProfile);  // Using the existing updateProfile method
+  }
 
   get hasExperienceField() {
     return this.profileData.hasExperience === "yes";
   }
-
 }
 
 const employeeStore = new EmployeeStore();
