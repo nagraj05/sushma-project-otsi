@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class EmployeeStore {
   profileData = {
+    id:"",
     firstname: "",
     lastname: "",
     email: "",
@@ -19,7 +20,6 @@ class EmployeeStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadProfile();
   }
 
   loadProfile(userId) {

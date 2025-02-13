@@ -5,6 +5,7 @@ import Login from "./component/Login";
 import EmployeePage from "./component/EmployeePage";
 import AdminPage from "./component/AdminPage";
 import AddUserDetails from "./component/AddUserDetails ";
+import AdminView from "./component/AdminView";
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/employe/:id" element={<EmployeePage />} />
           <Route path="/AdminPage" element={<AdminPage />} />
           <Route path="/add-details/:id" element={<AddUserDetails />} />
+          <Route path="/AdminView/:id" element={<AdminView/>} />
         </Routes>
       </BrowserRouter>
     </div>

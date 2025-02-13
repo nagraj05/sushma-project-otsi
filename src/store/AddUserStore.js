@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class AddUserStore {
   formData = {
+    id:"",
     firstname: "",
     lastname: "",
     email: "",

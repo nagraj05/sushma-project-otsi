@@ -20,9 +20,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { userStore } from "../store/UserStore";
 import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import moment from "moment";
-
 
 const AdminPage = observer(() => {
   const navigate = useNavigate();
@@ -69,11 +68,11 @@ const AdminPage = observer(() => {
                   <TableCell className="font-bold bg-gray-50">Name</TableCell>
                   <TableCell className="font-bold bg-gray-50">Email</TableCell>
                   <TableCell className="font-bold bg-gray-50">Phone</TableCell>
-                  <TableCell className="font-bold bg-gray-50">Address</TableCell>
+                  {/* <TableCell className="font-bold bg-gray-50">Address</TableCell>
                   <TableCell className="font-bold bg-gray-50">Gender</TableCell>
                   <TableCell className="font-bold bg-gray-50">DOB</TableCell>
                   <TableCell className="font-bold bg-gray-50">Skills</TableCell>
-                  <TableCell className="font-bold bg-gray-50">Experience</TableCell>
+                  <TableCell className="font-bold bg-gray-50">Experience</TableCell> */}
                   <TableCell className="font-bold bg-gray-50">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -81,11 +80,16 @@ const AdminPage = observer(() => {
                 {userStore.users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>
-                      {`${user.firstname} ${user.lastname}`}
+                      <Link 
+                        to={`/AdminView/${user.id}`}
+                        className="text-sky-600  underline"
+                      >
+                        {`${user.firstname} ${user.lastname}`}
+                      </Link>
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>{user.address}</TableCell>
+                    {/* <TableCell>{user.address}</TableCell>
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>{moment(user.dob).format('DD MMM YYYY')}</TableCell>
                     <TableCell>{user.skills}</TableCell>
@@ -93,7 +97,7 @@ const AdminPage = observer(() => {
                       {user.hasExperience === "yes"
                         ? user.experience
                         : "No experience"}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <IconButton
                         sx={{ color: "black" }}
@@ -109,7 +113,7 @@ const AdminPage = observer(() => {
                 {userStore.users.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={8}
+                      colSpan={4}
                       className="text-center py-8 text-gray-500"
                     >
                       No users found
