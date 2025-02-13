@@ -6,16 +6,15 @@ import EmployeePage from "./component/EmployeePage";
 import AdminPage from "./component/AdminPage";
 import AddUserDetails from "./component/AddUserDetails ";
 
-
 function App() {
   useEffect(() => {
     const userCredentials = {
       employees: [
-        { email: "emp1@gmail.com", password: "Emp@1234" },
-        { email: "emp2@gmail.com", password: "Emp@2345" },
-        { email: "emp3@gmail.com", password: "Emp@3456" },
-        { email: "emp4@gmail.com", password: "Emp@4567" },
-        { email: "emp5@gmail.com", password: "Emp@5678" },
+        { id: 1, email: "emp1@gmail.com", password: "Emp@1234" },
+        { id: 2, email: "emp2@gmail.com", password: "Emp@2345" },
+        { id: 3, email: "emp3@gmail.com", password: "Emp@3456" },
+        { id: 4, email: "emp4@gmail.com", password: "Emp@4567" },
+        { id: 5, email: "emp5@gmail.com", password: "Emp@5678" },
       ],
       admins: [
         { email: "admin1@gmail.com", password: "Admin@1234" },
@@ -35,7 +34,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/employe" element={<EmployeePage />} />
           <Route path="/AdminPage" element={<AdminPage />} />
-          <Route path="/add-details" element={<AddUserDetails />} />
+          <Route path="/add-details/:id" element={<AddUserDetails />} />
         </Routes>
       </BrowserRouter>
     </div>

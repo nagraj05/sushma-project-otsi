@@ -39,16 +39,27 @@ export default function Login() {
   const handleLogin = () => {
     if (!email || !password) return setLoginError("Please enter both email and password");
     if (!validateEmail(email)) return;
-  
     const { employees, admins } = JSON.parse(localStorage.getItem("userCredentials")) || {};
-    
-    if (employees?.some(user => user.email === email && user.password === password)) {
+
+    // Check employees and store ID
+    const employeeUser = employees?.find(
+      (user) => user.email === email && user.password === password
+    );
+    if (employeeUser) {
+      localStorage.setItem("currentUserId", employeeUser.id);
       navigate("/employe");
-    } else if (admins?.some(user => user.email === email && user.password === password)) {
-      navigate("/AdminPage");
-    } else {
-      setLoginError("Invalid email or password");
+      return;
     }
+
+    // Check admins
+    if (
+      admins?.some((user) => user.email === email && user.password === password)
+    ) {
+      navigate("/AdminPage");
+      return;
+    }
+
+    setLoginError("Invalid email or password");
   };
 
   return (

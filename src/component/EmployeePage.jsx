@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -13,13 +13,21 @@ import { observer } from "mobx-react-lite";
 import employeeStore from "../store/EmployeeStore ";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
+import EditIcon from "@mui/icons-material/Edit";
+
 const EmployeePage = observer(() => {
   const navigate = useNavigate();
+  const currentUserId = localStorage.getItem("currentUserId");
+
+  useEffect(() => {
+    // Load user-specific data when component mounts
+    employeeStore.loadProfile(currentUserId);
+  }, [currentUserId]);
+
 
   const handleAdddetails = () => {
-    navigate("/add-details");
+    navigate(`/add-details/${currentUserId}`);
   };
-
   const handleProfile = () => {
     employeeStore.setDialogOpen(true);
   };
@@ -49,9 +57,9 @@ const EmployeePage = observer(() => {
           <Button
             variant="contained"
             onClick={handleAdddetails}
-            startIcon={<AddCircleIcon />}
+            startIcon={employeeStore.hasUserData ? <EditIcon /> : <AddCircleIcon />}
           >
-            Add Details
+            {employeeStore.hasUserData ? 'Edit Details' : 'Add Details'}  
           </Button>
         </div>
 

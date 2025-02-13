@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -15,12 +15,21 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 import { addUserStore } from "../store/AddUserStore";
-import { userStore } from "../store/UserStore";
 import employeeStore from "../store/EmployeeStore ";
 
 const AddUserDetails = observer(() => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [error, setError] = useState("");
+  const currentUserId = localStorage.getItem("currentUserId");
+  const isEditing = employeeStore.hasUserData;
+  
+  useEffect(() => {
+    if (id && isEditing) {
+      // Pre-fill form with existing data if we have it
+      addUserStore.updateFormData(employeeStore.profileData);
+    }
+  }, [id, isEditing]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +46,13 @@ const AddUserDetails = observer(() => {
       addUserStore.validateForm();
       
       // Create a new user object with a unique ID
-      const newUser = {
+      const userData = {
         ...addUserStore.formData,
-        id: Date.now().toString(), // Add a unique ID
+        id: currentUserId,
       };
       
-      // Save to both stores
-      userStore.addUser(newUser);
-      employeeStore.updateProfile(newUser);
-      
-      
+      employeeStore.updateProfile(userData, currentUserId);
+      addUserStore.resetForm();
       // Navigate to employee page
       navigate('/employe');
     } catch (err) {
@@ -69,7 +75,9 @@ const AddUserDetails = observer(() => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-6">Add User Details</h2>
+        <h2 className="text-2xl font-semibold mb-6">
+          {isEditing ? 'Update User Details' : 'Add User Details'}
+        </h2>
 
         <div className="flex gap-4 mb-4">
           <TextField
@@ -198,7 +206,7 @@ const AddUserDetails = observer(() => {
             Cancel
           </Button>
           <Button type="submit" variant="contained" onClick={handleSubmit}>
-            Save
+            {isEditing ? 'Update' : 'Save'}
           </Button>
         </div>
       </div>

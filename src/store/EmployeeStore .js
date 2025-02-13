@@ -15,22 +15,32 @@ class EmployeeStore {
   };
 
   isDialogOpen = false;  // New state for dialog
+  hasUserData = false;
 
   constructor() {
     makeAutoObservable(this);
     this.loadProfile();
   }
 
-  loadProfile() {
-    const savedProfile = localStorage.getItem('userProfile');
-    if (savedProfile) {
-      this.profileData = JSON.parse(savedProfile);
+  loadProfile(userId) {
+    const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
+    if (profiles[userId]) {
+      this.profileData = profiles[userId];
+      this.hasUserData = true;
+    } else {
+      this.clearProfileData();
+      this.hasUserData = false;
     }
   }
 
-  updateProfile(newData) {
-    this.profileData = { ...this.profileData, ...newData };
-    localStorage.setItem('userProfile', JSON.stringify(this.profileData));
+  updateProfile(newData, userId) {
+    if (!userId) return;
+
+    const profiles = JSON.parse(localStorage.getItem('userProfiles')) || {};
+    profiles[userId] = { ...newData };
+    localStorage.setItem('userProfiles', JSON.stringify(profiles));
+    this.profileData = profiles[userId];
+    this.hasUserData = true;
   }
 
   setDialogOpen(isOpen) {  // New method to control dialog
@@ -52,6 +62,7 @@ clearProfileData() {
       hasExperience: ""
     };
     this.updateProfile(emptyProfile);  // Using the existing updateProfile method
+    this.hasUserData = false;  // Using the existing updateProfile method
   }
 
   get hasExperienceField() {
