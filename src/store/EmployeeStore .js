@@ -50,6 +50,7 @@ class EmployeeStore {
 
 clearProfileData() {
     const emptyProfile = {
+      id:"",
       firstname: "",
       lastname: "",
       email: "",

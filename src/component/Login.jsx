@@ -47,7 +47,7 @@ export default function Login() {
     );
     if (employeeUser) {
       localStorage.setItem("currentUserId", employeeUser.id);
-      navigate("/employe");
+      navigate(`/employe/${employeeUser.id}`);
       return;
     }
 

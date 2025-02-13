@@ -54,7 +54,7 @@ const AddUserDetails = observer(() => {
       employeeStore.updateProfile(userData, currentUserId);
       addUserStore.resetForm();
       // Navigate to employee page
-      navigate('/employe');
+      navigate(`/employe/${currentUserId}`);
     } catch (err) {
       setError(err.message);
       
@@ -69,7 +69,7 @@ const AddUserDetails = observer(() => {
 
   const handleCancel = () => {
     addUserStore.resetForm();
-    navigate('/employe');
+    navigate(`/employe/${currentUserId}`);
   };
 
   return (
