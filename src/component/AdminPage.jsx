@@ -30,9 +30,9 @@ const AdminPage = observer(() => {
     userStore.loadUsers();
   }, []);
 
-  const handleDelete = (email) => {
+  const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      userStore.deleteUser(email);
+      userStore.deleteUser(id);
     }
   };
 
@@ -69,23 +69,17 @@ const AdminPage = observer(() => {
                   <TableCell className="font-bold bg-gray-50">Name</TableCell>
                   <TableCell className="font-bold bg-gray-50">Email</TableCell>
                   <TableCell className="font-bold bg-gray-50">Phone</TableCell>
-                  <TableCell className="font-bold bg-gray-50">
-                    Address
-                  </TableCell>
+                  <TableCell className="font-bold bg-gray-50">Address</TableCell>
                   <TableCell className="font-bold bg-gray-50">Gender</TableCell>
                   <TableCell className="font-bold bg-gray-50">DOB</TableCell>
                   <TableCell className="font-bold bg-gray-50">Skills</TableCell>
-                  <TableCell className="font-bold bg-gray-50">
-                    Experience
-                  </TableCell>
-                  <TableCell className="font-bold bg-gray-50">
-                    Actions
-                  </TableCell>
+                  <TableCell className="font-bold bg-gray-50">Experience</TableCell>
+                  <TableCell className="font-bold bg-gray-50">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {userStore.users.map((user) => (
-                  <TableRow key={user.id || user.email}>
+                  <TableRow key={user.id}>
                     <TableCell>
                       {`${user.firstname} ${user.lastname}`}
                     </TableCell>
@@ -103,7 +97,7 @@ const AdminPage = observer(() => {
                     <TableCell>
                       <IconButton
                         sx={{ color: "black" }}
-                        onClick={() => handleDelete(user.email)}
+                        onClick={() => handleDelete(user.id)}
                         size="small"
                         className="hover:bg-red-50"
                       >
