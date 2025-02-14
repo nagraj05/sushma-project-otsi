@@ -78,6 +78,11 @@ const AddUserDetails = observer(() => {
         <h2 className="text-2xl font-semibold mb-6">
           {isEditing ? 'Update User Details' : 'Add User Details'}
         </h2>
+        {error && (
+          <Alert severity="error" className="mb-4">
+            {error}
+          </Alert>
+        )}
 
         <div className="flex gap-4 mb-4">
           <TextField
@@ -196,11 +201,7 @@ const AddUserDetails = observer(() => {
             />
           )}
         </div>
-        {error && (
-          <Alert severity="error" className="mb-4">
-            {error}
-          </Alert>
-        )}
+       
         <div className="flex justify-end gap-4">
           <Button variant="outlined" onClick={handleCancel}>
             Cancel

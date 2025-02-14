@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import moment from "moment";
 
 class AddUserStore {
   formData = {
@@ -53,6 +54,7 @@ class AddUserStore {
       'firstname',
       'lastname',
       'email',
+      'dob',
       'gender',
       'phoneNumber',
       'address',
@@ -64,6 +66,53 @@ class AddUserStore {
     
     if (missingFields.length > 0) {
       throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+    }
+
+    // DOB validation
+    if (this.formData.dob) {
+      const dob = moment(this.formData.dob, 'DD MMM YYYY');
+      
+      if (!dob.isValid()) {
+        throw new Error('Date of birth is not in a valid format');
+      }
+      
+      if (dob.isAfter(moment())) {
+        throw new Error('Date of birth cannot be in the future');
+      }
+      
+      if (dob.isBefore('1900-01-01')) {
+        throw new Error('Date of birth cannot be before 1900');
+      }
+      
+      const age = moment().diff(dob, 'years');
+      if (age < 18) {
+        throw new Error('You must be at least 18 years old');
+      }
+    }
+
+    // Phone number validation for India
+    if (this.formData.phoneNumber) {
+      // Strip spaces, dashes, parentheses
+      const cleanedNumber = this.formData.phoneNumber.replace(/[\s\-()]/g, '');
+      
+      // Remove any plus sign if present
+      const nationalNumber = cleanedNumber.replace(/^\+/, '');
+      
+      // Check for only digits
+      if (!/^\d+$/.test(nationalNumber)) {
+        throw new Error('Phone number should contain only digits');
+      }
+      
+      // Check for exactly 10 digits
+      if (nationalNumber.length !== 10) {
+        throw new Error('Phone number must be exactly 10 digits');
+      }
+      
+      // Check if starts with valid Indian mobile prefix
+      const firstDigit = parseInt(nationalNumber.charAt(0));
+      if (![6, 7, 8, 9].includes(firstDigit)) {
+        throw new Error('Mobile numbers must start with 6, 7, 8, or 9');
+      }
     }
 
     if (this.formData.hasExperience === 'yes' && !this.formData.experience) {
