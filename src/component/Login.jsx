@@ -96,7 +96,7 @@ export default function Login() {
             required
           />
           <div 
-            className="absolute right-3 top-1/2 cursor-pointer"
+            className="absolute right-3 top-[25%] cursor-pointer"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <VisibilityOff /> : <Visibility />}
