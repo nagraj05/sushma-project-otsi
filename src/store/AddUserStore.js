@@ -68,6 +68,31 @@ class AddUserStore {
       throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
     }
 
+    if (this.formData.lastname && this.formData.firstname) {
+      // Validate lastname and firstname (only alphabets allowed)
+      const nameRegex = /^[A-Za-z]+$/;
+      
+      if (!nameRegex.test(this.formData.firstname)) {
+        throw new Error('First name should contain only alphabets');
+      }
+      
+      if (!nameRegex.test(this.formData.lastname)) {
+        throw new Error('Last name should contain only alphabets');
+      }
+    
+      const cleanedNumber = this.formData.phoneNumber.replace(/[\s\-()]/g, '');
+    
+      // Remove any plus sign if present
+      const nationalNumber = cleanedNumber.replace(/^\+/, '');
+    
+      // Check for only digits
+      if (!/^\d+$/.test(nationalNumber)) {
+        throw new Error('Phone number should contain only digits');
+      }
+    
+    }
+    
+
     // DOB validation
     if (this.formData.dob) {
       const dob = moment(this.formData.dob, 'DD MMM YYYY');
@@ -111,7 +136,7 @@ class AddUserStore {
       // Check if starts with valid Indian mobile prefix
       const firstDigit = parseInt(nationalNumber.charAt(0));
       if (![6, 7, 8, 9].includes(firstDigit)) {
-        throw new Error('Mobile numbers must start with 6, 7, 8, or 9');
+        throw new Error('Mobile numbers must start with 6, 7, 8,9');
       }
     }
 
