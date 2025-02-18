@@ -21,7 +21,6 @@ import { userStore } from "../store/UserStore";
 import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate, Link } from "react-router-dom";
-import moment from "moment";
 
 const AdminPage = observer(() => {
   const navigate = useNavigate();

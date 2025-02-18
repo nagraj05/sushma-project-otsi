@@ -7,8 +7,6 @@ class UserStore {
 
   constructor() {
     makeAutoObservable(this);
-    // Load existing users when store is initialized
-    this.loadUsers();
   }
 
   addUser(user) {
@@ -37,22 +35,13 @@ class UserStore {
 
   loadUsers() {
     const savedProfiles = localStorage.getItem('userProfiles');
-    if (savedProfiles) {
-      try {
-        const profiles = JSON.parse(savedProfiles);
-        // Convert object of profiles to array, maintaining the ID
-        this.users = Object.entries(profiles).map(([id, profile]) => ({
-          id,
-          ...profile
-        }));
-      } catch (error) {
-        console.error('Error loading user profiles:', error);
-        this.users = [];
-      }
-    } else {
-      this.users = [];
-    }
-  }
+    const profiles = savedProfiles ? JSON.parse(savedProfiles) || {} : {}; // Ensures a valid object
+  
+    this.users = Object.entries(profiles).map(([id, profile]) => ({
+      id,
+      ...profile
+    }));
+  }  
 
   saveToLocalStorage() {
     // Convert array back to object with ID as key

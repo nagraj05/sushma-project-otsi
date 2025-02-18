@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useNavigate } from "react-router-dom";
 import { userStore } from "../store/UserStore";
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import moment from "moment";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,7 +12,6 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import WcIcon from "@mui/icons-material/Wc";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 
 const AdminView = observer(() => {
@@ -99,17 +98,7 @@ const AdminView = observer(() => {
               </div>
             </div>
 
-            <div className="w-full px-3 mb-4">
-              <div className="flex items-center space-x-3">
-                <LocationOnOutlinedIcon />
-                <div>
-                  <h3 className="font-semibold text-gray-600">Address</h3>
-                  <p className="text-lg">{user.address}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full px-3 mb-4">
+            <div className="w-1/2 px-3 mb-4">
               <div className="flex items-center space-x-3">
                 <MenuBookOutlinedIcon />
                 <div>
@@ -119,7 +108,7 @@ const AdminView = observer(() => {
               </div>
             </div>
 
-            <div className="w-full px-3 mb-4">
+            <div className="w-1/2 px-3 mb-4">
               <div className="flex items-center space-x-3">
                 <WorkOutlineIcon />
                 <div>
@@ -132,6 +121,17 @@ const AdminView = observer(() => {
                 </div>
               </div>
             </div>
+
+            <div className="w-full px-3 mb-4">
+              <div className="flex items-center space-x-3">
+                <LocationOnOutlinedIcon />
+                <div>
+                  <h3 className="font-semibold text-gray-600">Address</h3>
+                  <p className="text-lg">{user.address}</p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
