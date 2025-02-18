@@ -11,6 +11,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import employeeStore from "../store/EmployeeStore ";
+import { addUserStore } from "../store/AddUserStore";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PermIdentityTwoToneIcon from "@mui/icons-material/PermIdentityTwoTone";
 import EditIcon from "@mui/icons-material/Edit";
@@ -37,7 +38,8 @@ const EmployeePage = observer(() => {
   };
 
   const handleLogout = () => {
-    employeeStore.setDialogOpen(false);
+    employeeStore.handleLogout();
+    addUserStore.resetForm();
     navigate("/");
   };
 

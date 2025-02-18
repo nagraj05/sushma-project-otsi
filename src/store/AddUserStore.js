@@ -27,12 +27,17 @@ class AddUserStore {
 
   // Update multiple fields at once
   updateFormData(data) {
-    Object.assign(this.formData, data);
+    this.formData = {
+      ...this.formData,
+      ...data,
+      id: data.id || this.formData.id
+    };
   }
 
   // Reset form to initial state
   resetForm() {
     this.formData = {
+      id: "",
       firstname: "",
       lastname: "",
       email: "",

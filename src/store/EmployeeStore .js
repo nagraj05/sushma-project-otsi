@@ -47,9 +47,9 @@ class EmployeeStore {
     this.isDialogOpen = isOpen;
   }
 
-
-clearProfileData() {
-    const emptyProfile = {
+  clearProfileData() {
+    this.profileData = {
+      id: "",
       firstname: "",
       lastname: "",
       email: "",
@@ -61,8 +61,13 @@ clearProfileData() {
       experience: "",
       hasExperience: ""
     };
-    this.updateProfile(emptyProfile);  // Using the existing updateProfile method
-    this.hasUserData = false;  // Using the existing updateProfile method
+    this.hasUserData = false;
+  }
+
+  handleLogout() {
+    // Only clear the store data,
+    this.clearProfileData();
+    this.setDialogOpen(false);
   }
 
   get hasExperienceField() {
