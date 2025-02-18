@@ -36,7 +36,7 @@ const AdminView = observer(() => {
           <div className="flex flex-wrap -mx-3">
             <div className="w-1/2 px-3 mb-4">
               <div className="flex items-center space-x-3">
-                <span className="text-gray-600">
+                <span >
                   <PersonIcon />
                 </span>
                 <div>
